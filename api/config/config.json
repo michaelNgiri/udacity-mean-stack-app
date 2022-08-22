@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "vzuxbsfz",
+    "password": "B310ibThA1p7za4U_mHX8nHYxVIdR_XP",
+    "database": "vzuxbsfz",
+    "host": "jelani.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "vzuxbsfz",
+    "password": "B310ibThA1p7za4U_mHX8nHYxVIdR_XP",
+    "database": "vzuxbsfz",
+    "host": "jelani.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "vzuxbsfz",
+    "password": "B310ibThA1p7za4U_mHX8nHYxVIdR_XP",
+    "database": "vzuxbsfz",
+    "host": "jelani.db.elephantsql.com",
+    "dialect": "postgres"
+  }
+}
+

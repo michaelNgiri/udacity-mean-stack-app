@@ -1,4 +1,4 @@
-import { DataResponse, SubscriptionPlan, UserInterface, VehicleDetails } from "../../utils/types";
+import { DataResponse} from "../../utils/types";
 import { User } from "./user.model";
 import { Link } from "../link/link.model";
 import _ from "lodash";
@@ -31,12 +31,12 @@ export class UserService {
 		return new Promise((resolve, reject) => {
 			const usertypes = ["dealer", "inspection", "delivery", "buyer", "admin"];
 			if (usertypes.includes(userType)) {
-				User.updateOne({ email }, { userType }).then((user) => {
+				User.updateOne({ email }, { userType }).then((user: any) => {
 					if (user) {
 						resolve({ status: 200, msg: "User type updated successfully" });
 
 					}
-				}).catch((err) => {
+				}).catch((err: any) => {
 					reject({ status: 404, msg: err });
 
 				});

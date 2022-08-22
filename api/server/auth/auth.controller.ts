@@ -20,9 +20,9 @@ export class AuthController extends AuthService {
 	createUser = (req: Request, res: Response, next: NextFunction): void => {
 		console.log("secret key:" + sk);
 
-		const { firstName, lastName, email, phoneNumber, password } = req.body;
+		const { firstName, lastName, email,  password } = req.body;
 		console.log(req.body);
-		this._createUser(email, phoneNumber, password, firstName, lastName).then((resp: DataResponse) => {
+		this._createUser(email, password, firstName, lastName).then((resp: DataResponse) => {
 			console.log('back from service into the controller...')
 			res.status(resp.status).json({
 				success: true,

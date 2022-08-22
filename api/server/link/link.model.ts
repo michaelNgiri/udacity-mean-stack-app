@@ -16,17 +16,11 @@ export const Link = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  link_owner: {
-    type: DataTypes.STRING,
+  link_owner_id: {
+    type: DataTypes.INTEGER,
     allowNull: false
-  },
-  link_active: {
-    type: DataTypes.BOOLEAN,
-	allowNull: false,
-	defaultValue: true
   }
  
 }, {
   // Other model options go here
 });
-

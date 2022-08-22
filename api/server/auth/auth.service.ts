@@ -15,7 +15,7 @@ export class AuthService {
 	 * @param firstName
 	 * @param lastName
 	 */
-	_createUser = async (email: string, phoneNumber: string, password: string, firstName: string, lastName: string): Promise<DataResponse> => {
+	_createUser = async (email: string, password: string, firstName: string, lastName: string): Promise<DataResponse> => {
 		console.log("inside the service");
 		const salt = bcrypt.genSaltSync(10);
 		const hashedPassword = bcrypt.hashSync(password, salt);
@@ -23,17 +23,14 @@ export class AuthService {
 			console.log('making a promise')
 			User.findOne({ where: { email: email } }).then((user: string | any[]) => {
 				console.log('user:'+user)
-				if (user.length > 0) {
+				if (user == null) {
 					reject({ status: 403, msg: "user with this email exist!" });
 				}
-				const sso = Math.floor(100000 + Math.random() * 900000) + "-" + Math.floor(100000 + Math.random() * 900000) + "-" + Math.floor(100000 + Math.random() * 900000);
 				User.create({
 					email,
-					phoneNumber,
 					password: hashedPassword,
 					firstName,
 					lastName,
-					sso: sso,
 				}, (err: any, user: any) => {
 					if (err) reject({ data: user, status: 501, msg: "this is bad!" });
 					resolve({ data: user, status: 201, msg: "user created!" });

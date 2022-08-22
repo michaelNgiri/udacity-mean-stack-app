@@ -8,22 +8,9 @@ export const User = sequelize.define('User', {
     autoIncrement: true,
     primaryKey: true
   },
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  lastName: {
-    type: DataTypes.STRING
-    // allowNull defaults to true
-	},
-   email: {
-    type: DataTypes.STRING
-    // allowNull defaults to true
-	},
-   phone: {
-    type: DataTypes.STRING
-    // allowNull defaults to true
-}
-}, {
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    email: DataTypes.STRING,
+  }, {
   // Other model options go here
 });
