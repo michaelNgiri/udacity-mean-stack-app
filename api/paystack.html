@@ -1,0 +1,70 @@
+<form id="paymentForm">
+	<div class="form-group">
+		<label for="email">Email Address</label>
+		<input type="email" id="email-address" required />
+	</div>
+	<div class="form-group">
+		<label for="amount">Amount</label>
+		<input type="tel" id="amount" required />
+	</div>
+	<div class="form-group">
+		<label for="first-name">First Name</label>
+		<input type="text" id="first-name" />
+	</div>
+	<div class="form-group">
+		<label for="last-name">Last Name</label>
+		<input type="text" id="last-name" />
+	</div>
+	<div class="form-submit">
+		<button type="submit" onclick="payWithPaystack()">Pay</button>
+	</div>
+</form>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+	const paymentForm = document.getElementById("paymentForm");
+	paymentForm.addEventListener("submit", payWithPaystack, false);
+	function payWithPaystack(e) {
+		e.preventDefault();
+
+		let handler = PaystackPop.setup({
+			key: "pk_test_979e8c4fd71a9925b89158f2c2bbcf8f78a1060b", // Replace with your public key
+			email: document.getElementById("email-address").value,
+			amount: document.getElementById("amount").value * 100,
+			ref: "" + Math.floor(Math.random() * 1000000000 + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+			// label: "Optional string that replaces customer email"
+			first_name: document.getElementById("first-name").value,
+			last_name: document.getElementById("last-name").value,
+			// customer: {
+			// 	first_name: document.getElementById("first-name").value,
+			// 	last_name: document.getElementById("last-name").value,
+			// },
+
+			metadata: {
+				customerEmail: document.getElementById("email-address").value,
+				customerFirstName: document.getElementById("first-name").value,
+				customerLastName: document.getElementById("last-name").value,
+
+				service: "buy-for-me",
+				planId: "62e432c2b6f6f6c5e21ccc54",
+				// service: top-deal | feature-deal | inspection | subscription | buy-for-me
+				// vehicle: vehicle-Id
+				vehicle: "62df1d5fe8d23167a866411d",
+				userId: "62f8ff609f44128e5fb47236",
+				buyformeId: "62f90c8c19cd80d0130b0c58",
+				//Optional, if user isn't logged in, don't add this field to metadata. Make sure customer email, first and lastname is added
+				description: "Make this the service deal",
+				vehicleCategory: "honda-crv", // Concatenation of brand and make
+			},
+			onClose: function () {
+				alert("Window closed.");
+			},
+			callback: function (response) {
+				let message = "Payment complete! Reference: " + response.reference;
+				alert(message);
+			},
+		});
+
+		handler.openIframe();
+	}
+</script>
