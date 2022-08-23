@@ -10,7 +10,8 @@ export const User = sequelize.define('User', {
   },
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
+	email: DataTypes.STRING,
+	password:DataTypes.STRING
   }, {
   // Other model options go here
 });

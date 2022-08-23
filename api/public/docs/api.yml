@@ -117,15 +117,15 @@ paths:
   #        '500':
   #          description: Server Error
   #          content: {}
-  /user/email/{email}:
+  /auth/user/{id}:
     get:
       summary: Get a user
       tags:
         - User
       parameters:
-        - name: email
+        - name: id
           in: path
-          description: The email of the user to retrieve
+          description: The id of the user to retrieve
           required: true
           schema:
             type: string
@@ -148,215 +148,37 @@ paths:
         "500":
           description: Server Error
           content: {}
-  #  /user/phone/{phoneNumber}:
-  #    get:
-  #      summary: Get a user
-  #      tags:
-  #          - User
-  #      parameters:
-  #        - name: phoneNumber
-  #          in: path
-  #          description: The phone number of the user to retrieve
-  #          required: true
-  #          schema:
-  #            type: string
-  #      responses:
-  #        '200':
-  #          description: User found
-  #          content: {}
-  #        '400':
-  #          description: Bad request
-  #          content: {}
-  #        '404':
-  #          description: User does not exist
-  #          content: {}
-  #        '500':
-  #          description: Server Error
-  #          content: {}
-  #  /auth/resend-verification-email:
-  #    post:
-  #      summary: Resend email verification link
-  #      tags:
-  #        - Auth
-  #      requestBody:
-  #        description: Requires user's email
-  #        content:
-  #          application/json:
-  #            schema:
-  #              $ref: '#/schemas/ResendVerification'
-  #      responses:
-  #        '200':
-  #          description: Verification link sent
-  #          content: {}
-  #        '400':
-  #          description: Bad request
-  #          content: {}
-  #        '404':
-  #          description: User does not exist
-  #          content: {}
-  #        '500':
-  #          description: Server Error
-  #          content: {}
-  #  /auth/user/delete:
-  #    delete:
-  #      summary: Delete user
-  #      tags:
-  #        - Auth
-  #      requestBody:
-  #        description: Requires user's email and password
-  #        content:
-  #          application/json:
-  #            schema:
-  #              $ref: '#/schemas/DeleteUser'
-  #      responses:
-  #        '200':
-  #          description: Verification link sent
-  #          content: {}
-  #        '400':
-  #          description: Bad request
-  #          content: {}
-  #        '404':
-  #          description: User does not exist
-  #          content: {}
-  #        '500':
-  #          description: Server Error
-  #          content: {}
-  /auth/verify-token:
-    post:
-      summary: Verify token
-      tags:
-        - Auth
-      requestBody:
-        description: Requires token
-        content:
-          application/json:
-            schema:
-              $ref: "#/schemas/VerifyToken"
-      responses:
-        "200":
-          description: token is valid
-          content: {}
-        "400":
-          description: Bad request
-          content: {}
-        "401":
-          description: invalid token
-          content: {}
-        "500":
-          description: Server Error
-          content: {}
-  /auth/password-reset/send-otp:
-    post:
-      summary: Reset password
-      tags:
-        - Auth
-      requestBody:
-        description: Requires token
-        content:
-          application/json:
-            schema:
-              $ref: "#/schemas/PasswordReset"
-      responses:
-        "201":
-          description: OTP sent
-          content: {}
-        "400":
-          description: Bad request
-          content: {}
-        "401":
-          description: Authorisation failed
-          content: {}
-        "404":
-          description: user does not exist
-          content: {}
-        "500":
-          description: Server Error
-          content: {}
-          # email routes
-  # /email/ses/send:
-  #   post:
-  #     summary: Send SES email
+
+  # /auth/verify-email:
+  #   put:
+  #     summary: verify email with sso
   #     tags:
-  #       - Email
+  #       - Auth
   #     requestBody:
-  #       description: Send Email
+  #       description: Requires sso
   #       content:
   #         application/json:
   #           schema:
-  #             # $ref: '#/schemas/PasswordReset'
+  #             $ref: "#/schemas/VerifyEmailWithSSO"
   #     responses:
-  #       '200':
-  #         description: Email sent
+  #       "201":
+  #         description: email verified
   #         content: {}
-  #       '400':
-  #         description: Sending failed
+  #       "400":
+  #         description: Bad request
   #         content: {}
-  # '401':
-  #   description: Authorisation failed
+  #       "401":
+  #         description: Authorisation failed
   #   content: {}
-  # '404':
+  # "403":
+  #   description: Wrong SSO
+  #   content: {}
+  # "404":
   #   description: user does not exist
   #   content: {}
-  # '500':
+  # "500":
   #   description: Server Error
   #   content: {}
-  /auth/password-reset/complete:
-    post:
-      summary: complete password reset
-      tags:
-        - Auth
-      requestBody:
-        description: Requires token
-        content:
-          application/json:
-            schema:
-              $ref: "#/schemas/CompletePasswordReset"
-      responses:
-        "201":
-          description: OTP sent
-          content: {}
-        "400":
-          description: Bad request
-          content: {}
-        "401":
-          description: Authorisation failed
-          content: {}
-        "404":
-          description: user does not exist
-          content: {}
-        "500":
-          description: Server Error
-          content: {}
-  /auth/verify-email:
-    put:
-      summary: verify email with sso
-      tags:
-        - Auth
-      requestBody:
-        description: Requires sso
-        content:
-          application/json:
-            schema:
-              $ref: "#/schemas/VerifyEmailWithSSO"
-      responses:
-        "201":
-          description: email verified
-          content: {}
-        "400":
-          description: Bad request
-          content: {}
-        "401":
-          description: Authorisation failed
-          content: {}
-        "403":
-          description: Wrong SSO
-          content: {}
-        "404":
-          description: user does not exist
-          content: {}
-        "500":
-          description: Server Error
-          content: {}
 schemas:
   SaveUser:
     title: create new user

@@ -53,14 +53,16 @@ export class AuthService {
 	 * @param password
 	 * @param ipAddress
 	 */
-	_loginUser = async (email: string, password: string, ipAddress: string | undefined): Promise<DataResponse> => {
+	_loginUser = async (email: string, password: string): Promise<DataResponse> => {
 		return new Promise((resolve, reject) => {
-			User.find({ email: email }).then(async (user: string | any[]) => {
-				// console.log("user found:" + user);
-				if (user.length > 0) {
+			User.findOne({ where: { email: email } }).then(async (user: string | any[]) => {
+				console.log("user found:" + user);
+				if (user !== null) {
 
 					const dbPassword = String(_.map(user, _.property("password")));
+					console.log("user password:" + dbPassword);
 					const match = await bcrypt.compare(password, dbPassword);
+					resolve({ msg: "Login successful", status: 200, data: user, success: true });
 					if (match) {
 						console.log("password matched:");console.log("user logged in:");
 							resolve({ msg: "Login successful", status: 200, data: user, success: true });
@@ -80,6 +82,26 @@ export class AuthService {
 			// });
 		});
 	};
+
+
+	/**
+	 * Find a user
+	 * @param email
+	 */
+	_getUser = async (email: string): Promise<DataResponse> => {
+		console.log("getting a user");
+		return new Promise((resolve, reject) => {
+			console.log('making a promise')
+			User.findOne({ where: { email: email } }).then((user: string | any[]) => {
+					resolve({ data: user, status: 200, msg: "user found!" });
+	
+			}).catch((err: any) => {
+				console.log('error:'+err)
+				reject({ status: 403, msg: err });
+			});
+		});
+	};
+
 
 
 
