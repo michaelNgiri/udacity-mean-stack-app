@@ -46,9 +46,10 @@ app.get("/api/v1/docs", (req, res) => {
 });
 
 const { PORT } = process.env;
+const {POSTGRES_URL} = process.env;
 
 
-const sequelize = new Sequelize('postgres://vzuxbsfz:B310ibThA1p7za4U_mHX8nHYxVIdR_XP@jelani.db.elephantsql.com/vzuxbsfz') 
+const sequelize = new Sequelize(POSTGRES_URL) 
 app.listen(PORT, () => {
 	console.info(`Node server listening on port: ${PORT}`);
 	console.log("connecting to database, please wait...");

@@ -39,5 +39,6 @@
 - [ ] **start the project with the above commands**
 - [ ] **Edit the `.env` file for any desired port or run on the specified port**
 - [ ] **navigate to `127.0.0.1:5005/docs` to view the swagger documentation**
+- [ ] **Login to generate a token**
 
 ## Cheers:beer:

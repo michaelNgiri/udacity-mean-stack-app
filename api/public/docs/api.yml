@@ -76,12 +76,14 @@ paths:
       parameters:
         - name: id
           in: path
+          example: 1
           description: The id of the user to retrieve
           required: true
           schema:
             type: string
         - name: token
           in: header
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pY2hhZWxuZ2lyaUBnbWFpbC5jb20iLCJkYXRlQ3JlYXRlZCI6IjIwMjItMDgtMjNUMTk6MjY6MzIuMTA2WiIsImlhdCI6MTY2MTI4Mjc5Mn0.F0LfQGuV4mTngIKimqtHkHOdJG86Ut-bxR_3dE-7H9s
           description: Authentication token
           required: true
           schema:
@@ -132,12 +134,14 @@ paths:
       parameters:
         - name: id
           in: path
+          example: 1
           description: The id of the link to retrieve
           required: true
           schema:
             type: string
         - name: token
           in: header
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pY2hhZWxuZ2lyaUBnbWFpbC5jb20iLCJkYXRlQ3JlYXRlZCI6IjIwMjItMDgtMjNUMTk6MjY6MzIuMTA2WiIsImlhdCI6MTY2MTI4Mjc5Mn0.F0LfQGuV4mTngIKimqtHkHOdJG86Ut-bxR_3dE-7H9s
           description: Authentication token
           required: true
           schema:
