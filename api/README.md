@@ -4,7 +4,7 @@
 
 #### PROJECT NAME: Links Manager API
 
-### PRPJECT DESCRIPTION: Links manager is a URL shortener that allows you to get a shorter version of any url which is more handy and easier to share
+### PROJECT DESCRIPTION: Links manager is a URL shortener that allows you to get a shorter version of any url which is more handy and easier to share
 
 #### AUTHOR NAME: Michael Ngiri
 
@@ -14,7 +14,7 @@
 
 ## PROJECT GUIDELINE
 
-#### ****\*\*\*\*****\*\*\*\*****\*\*\*\*****\*****\*\*\*\*****\*\*\*\*****\*\*\*\*****
+#### \***\*\*\*\*\*\*\***\*\*\*\*\***\*\*\*\*\*\*\***\*\***\*\*\*\*\*\*\***\*\*\*\*\***\*\*\*\*\*\*\***
 
 | **command**         | **outcome**                                                     |
 | ------------------- | --------------------------------------------------------------- |
@@ -24,12 +24,20 @@
 | **`yarn lint`**     | **lint the entire project**                                     |
 | **`yarn lint:fix`** | **lint the entire project and fix errors found in the process** |
 
-### HOW TO CONTRIBUTE
+### HOW TO USE THE CODEBASE
 
 - [x] **Clone the project with `git clone <git repo>`**
 - [ ] **run `yarn start`**
 - [ ] **run `yarn dev`**
 - [ ] **create a branch for each feature**
 - [ ] **initiate a PR when the feature is complete to merge the feature to main**
+
+**SWAGGER DOCUMENTATION**
+
+**_The project is documented with Swagger so you can interact with the application on the browser without needing to download postman_**
+
+- [ ] **start the project with the above commands**
+- [ ] **Edit the `.env` file for any desired port or run on the specified port**
+- [ ] **navigate to `127.0.0.1:5005/docs` to view the swagger documentation**
 
 ## Cheers:beer:
