@@ -43,7 +43,7 @@ export class Middleware {
 					msg: "invalid token"
 				});
 			} else {
-				User.find({ email: decoded.email }).then((user) => {
+				User.find({ email: decoded.email }).then((user: any) => {
 					const dbUserType = String(_.map(user, _.property("userType")));
 					if (dbUserType === "admin") {
 						next();
@@ -56,7 +56,7 @@ export class Middleware {
 
 
 
-				}).catch((err) => {
+				}).catch((err: any) => {
 					res.status(400).json({
 						success: false,
 						msg: "User does not exist",

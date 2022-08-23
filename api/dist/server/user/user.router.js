@@ -27,7 +27,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
+const middleware_1 = __importDefault(require("../../middlewares/middleware"));
 const user_controller_1 = __importDefault(require("./user.controller"));
 const UserRouter = express.Router()
-    .get("/user/email/:email", user_controller_1.default.getUser);
+    .get("/user/email/:email", [middleware_1.default.checkToken], user_controller_1.default.getUser);
 exports.default = UserRouter;

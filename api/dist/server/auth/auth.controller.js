@@ -17,11 +17,11 @@ class AuthController extends auth_service_1.AuthService {
          */
         this.createUser = (req, res, next) => {
             console.log("secret key:" + sk);
-            const { firstName, lastName, email, phoneNumber, password } = req.body;
+            const { firstName, lastName, email, password } = req.body;
             console.log(req.body);
-            this._createUser(email, phoneNumber, password, firstName, lastName).then((resp) => {
-                // @ts-ignore
-                res.status(parseInt(resp["status"])).json({
+            this._createUser(email, password, firstName, lastName).then((resp) => {
+                console.log('back from service into the controller...');
+                res.status(resp.status).json({
                     success: true,
                     token: jwt.sign({ email: email, lastName, firstName }, sk),
                     msg: "User created successfully!"
@@ -41,18 +41,18 @@ class AuthController extends auth_service_1.AuthService {
          */
         this.login = (req, res, next) => {
             const { email, password } = req.body;
-            const ipAddress = req.connection.remoteAddress;
-            console.log("ip:" + ipAddress);
-            this._loginUser(email, password, ipAddress).then(() => {
+            // console.log("ip:" + ipAddress);
+            this._loginUser(email, password).then((data) => {
                 const token = jwt.sign({ email: email, dateCreated: new Date() }, sk);
                 // console.log("jwt token:" + tk);
                 res.status(200).json({
                     success: true,
                     msg: "Login successful",
-                    token
+                    token,
+                    data: data
                 });
             }).catch((resp) => {
-                console.log("failed to login-catch code:" + resp["statusCode"]);
+                console.log("failed to login-catch code:" + resp["status"]);
                 res.status(400).json({
                     success: false,
                     msg: resp["msg"],
@@ -60,107 +60,30 @@ class AuthController extends auth_service_1.AuthService {
             });
         };
         /**
-         * Initiate password reset
+         * Login a user
          * @param req
          * @param res
          * @param next
          */
-        this.initiatePasswordReset = (req, res, next) => {
-            const { email } = req.body;
-            console.log("email:" + email);
-            this._sendOTP(email).then((resp) => {
+        this.getUser = (req, res, next) => {
+            const { id: id } = req.params;
+            console.log(req.params);
+            console.log("user id:" + id);
+            this._getUser(id).then((data) => {
+                const token = jwt.sign({ id: id, dateCreated: new Date() }, sk);
+                // console.log("jwt token:" + tk);
                 res.status(200).json({
                     success: true,
-                    msg: "password reset initiated, please check your email for further instructions"
+                    msg: "User found",
+                    token,
+                    user: data
                 });
             }).catch((resp) => {
-                res.status(parseInt(resp["statusCode"])).json({
+                console.log("user not found:" + resp["status"]);
+                res.status(404).json({
                     success: false,
                     msg: resp["msg"],
                 });
-            });
-        };
-        /**
-         * Reset Password
-         * @param req
-         * @param res
-         * @param next
-         */
-        this.resetPassword = (req, res, next) => {
-            const { otp, email, newPassword } = req.body;
-            this.completePasswordReset(email, otp, newPassword).then((resp) => {
-                res.status(200).json({
-                    success: true,
-                    msg: "password reset succesful"
-                });
-            }).catch((resp) => {
-                res.status(parseInt(resp["statusCode"])).json({
-                    success: false,
-                    msg: resp["msg"],
-                });
-            });
-        };
-        /**
-         * send sso
-         * @param req
-         * @param res
-         * @param next
-         */
-        this.resendSSO = (req, res, next) => {
-            const { otp, email, newPassword } = req.body;
-            this.resendSSOToEmail(email).then((resp) => {
-                res.status(200).json({
-                    success: true,
-                    msg: "SSO email sent"
-                });
-            }).catch((resp) => {
-                res.status(parseInt(resp["statusCode"])).json({
-                    success: false,
-                    msg: resp["msg"],
-                });
-            });
-        };
-        /**
-         * verify email address
-         * @param req
-         * @param res
-         * @param next
-         */
-        this.verifyEmail = (req, res, next) => {
-            const { sso, email } = req.body;
-            this._verifyEmail(email, sso).then((resp) => {
-                res.status(200).json({
-                    success: true,
-                    msg: 'email verified'
-                });
-            }).catch((resp) => {
-                res.status(parseInt(resp["statusCode"])).json({
-                    success: false,
-                    msg: resp["msg"],
-                });
-            });
-        };
-        /**
-         * verify token
-         * @param req
-         * @param res
-         * @param next
-         */
-        this.verifyToken = (req, res, next) => {
-            const { token } = req.body;
-            jwt.verify(token, sk, function (err, decoded) {
-                if (err) {
-                    res.status(400).json({
-                        success: false,
-                        msg: 'invalid token'
-                    });
-                }
-                else {
-                    res.status(200).json({
-                        success: true,
-                        msg: 'Token verified'
-                    });
-                }
             });
         };
     }

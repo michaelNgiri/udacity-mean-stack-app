@@ -27,9 +27,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
-const auth_controller_1 = __importDefault(require("./auth.controller"));
-const AuthRouter = express.Router()
-    .post("/auth/register", auth_controller_1.default.createUser)
-    .post("/auth/login", auth_controller_1.default.login)
-    .get("/auth/user/:id", auth_controller_1.default.getUser);
-exports.default = AuthRouter;
+const link_controller_1 = __importDefault(require("./link.controller"));
+const LinkRouter = express.Router()
+    .post("/link/create", link_controller_1.default.createLink)
+    .get("/link/:linkID", link_controller_1.default.getLink)
+    .delete('/link/:linkID/delete', link_controller_1.default.deleteLink)
+    .patch('/link/update', link_controller_1.default.updateLink);
+exports.default = LinkRouter;

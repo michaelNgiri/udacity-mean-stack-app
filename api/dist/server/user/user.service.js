@@ -1,19 +1,7 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
-const user_model_1 = __importDefault(require("./user.model"));
+const user_model_1 = require("./user.model");
 // import _ from "lodash";
 class UserService {
     constructor() {
@@ -25,19 +13,35 @@ class UserService {
          * @param firstName
          * @param lastName
          */
-        this._getUser = (email) => __awaiter(this, void 0, void 0, function* () {
+        this._getUser = async (email) => {
             return new Promise((resolve, reject) => {
-                user_model_1.default.find({ email: email }).then((user) => {
-                    console.log('user:' + user);
-                    console.log(typeof (user));
-                    if (user.length > 0) {
-                        resolve({ 'user': user, 'status': 200, 'msg': "user created!" });
+                user_model_1.User.find({ email: email }).then((user) => {
+                    if (user) {
+                        resolve({ data: user, status: 200, msg: "User found!" });
                     }
                 }).catch((err) => {
                     reject({ status: 404, msg: err });
                 });
             });
-        });
+        };
+        this._changeUserType = (email, userType) => {
+            return new Promise((resolve, reject) => {
+                const usertypes = ["dealer", "inspection", "delivery", "buyer", "admin"];
+                if (usertypes.includes(userType)) {
+                    user_model_1.User.updateOne({ email }, { userType }).then((user) => {
+                        if (user) {
+                            resolve({ status: 200, msg: "User type updated successfully" });
+                        }
+                    }).catch((err) => {
+                        reject({ status: 404, msg: err });
+                    });
+                }
+                else {
+                    // eslint-disable-next-line quotes
+                    reject({ status: 404, msg: `${userType} is not a valid usertype` });
+                }
+            });
+        };
     }
 }
 exports.UserService = UserService;

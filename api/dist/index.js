@@ -32,10 +32,12 @@ const bodyParser = __importStar(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const path_1 = __importDefault(require("path"));
-const mongoose_1 = __importDefault(require("mongoose"));
+// import mongoose from "mongoose";
+const { Sequelize } = require('sequelize');
 const dotenv_1 = __importDefault(require("dotenv"));
-const auth_router_1 = __importDefault(require("./server/auth/auth.router"));
 const logger_1 = __importDefault(require("./utils/logger"));
+const auth_router_1 = __importDefault(require("./server/auth/auth.router"));
+const link_router_1 = __importDefault(require("./server/link/link.router"));
 const env = dotenv_1.default.config();
 const logger = morgan_1.default;
 const app = (0, express_1.default)();
@@ -48,13 +50,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 const prefix = "/api/v1";
 app.use(prefix, auth_router_1.default);
+app.use(prefix, link_router_1.default);
 app.get("/", (req, res) => {
-    const fileDirectory = path_1.default.resolve(__dirname, ".", "public/");
-    res.sendFile("index.html", { root: fileDirectory }, (err) => {
-        res.end();
-        if (err)
-            throw err;
-    });
+    res.status(200).send("Welcome to Links Manager");
 });
 app.get("/api/v1/docs", (req, res) => {
     const fileDirectory = path_1.default.resolve(__dirname, ".", "public/");
@@ -65,35 +63,13 @@ app.get("/api/v1/docs", (req, res) => {
     });
 });
 const { PORT } = process.env;
+const { POSTGRES_URL } = process.env;
+const sequelize = new Sequelize(POSTGRES_URL);
 app.listen(PORT, () => {
     console.info(`Node server listening on port: ${PORT}`);
     console.log("connecting to database, please wait...");
-    const mongoURI = process.env.MONGO_DB_URI;
-    mongoose_1.default
-        .connect(String(mongoURI)
-    // , {
-    // // socketTimeoutMS: 0,
-    // keepAlive: true,
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
-    // useFindAndModify: false,
-    // useCreateIndex: true,
-    // autoIndex: true, //for having unique fields like email
-    // poolSize: 10,
-    // bufferMaxEntries: 0,
-    // connectTimeoutMS: 10000,
-    // socketTimeoutMS: 45000,
-    // family: 4, // Use IPv4, skip trying IPv6
-    // }
-    )
-        .then((info) => {
-        if (info) {
-            console.log("info:" + info);
-        }
-        console.info("database connection established");
-    })
-        .catch((err) => {
-        console.log(`err: ${err}`);
-        console.warn("database connection failed, please check your network!");
+    // Postgres connection
+    sequelize.authenticate().then(() => { console.log('db uplink established...'); }).catch((err) => {
+        console.log('db uplink failed...' + err);
     });
 });
