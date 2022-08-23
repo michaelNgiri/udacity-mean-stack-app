@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('postgres://vzuxbsfz:B310ibThA1p7za4U_mHX8nHYxVIdR_XP@jelani.db.elephantsql.com/vzuxbsfz') 
 
-export const Link = sequelize.define('User', {
+export const Link = sequelize.define('Link', {
   // Model attributes are defined here
 	id: {
     type: DataTypes.INTEGER,
@@ -9,7 +9,7 @@ export const Link = sequelize.define('User', {
     primaryKey: true
   },
   original_link: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   short_link: {

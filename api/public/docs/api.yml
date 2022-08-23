@@ -68,55 +68,6 @@ paths:
         "500":
           description: Server Error
           content: {}
-  #  /auth/logout:
-  #    post:
-  #      summary: Logout user
-  #      tags:
-  #        - Auth
-  #      requestBody:
-  #        description: Requires no parameters
-  #        content:
-  #          application/json:
-  #            schema: {}
-  #        required: false
-  #      responses:
-  #        '200':
-  #          description: User logged out
-  #          content: {}
-  #        '400':
-  #          description: Bad request
-  #          content: {}
-  #        '500':
-  #          description: Server Error
-  #          content: {}
-  #  /auth/send-password-reset:
-  #    post:
-  #      summary: Login user
-  #      tags:
-  #        - Auth
-  #      requestBody:
-  #        description: Requires user's email
-  #        content:
-  #          application/json:
-  #            schema:
-  #              $ref: '#/schemas/PasswordReset'
-  #        required: true
-  #      responses:
-  #        '200':
-  #          description: password reset link sent
-  #          content: {}
-  #        '400':
-  #          description: Bad request
-  #          content: {}
-  ##        '401':
-  ##          description: Request failed
-  ##          content: {}
-  #        '404':
-  #          description: User does not exist
-  #          content: {}
-  #        '500':
-  #          description: Server Error
-  #          content: {}
   /auth/user/{id}:
     get:
       summary: Get a user
@@ -148,37 +99,119 @@ paths:
         "500":
           description: Server Error
           content: {}
+  /link/create:
+    post:
+      summary: Shorten a url
+      tags:
+        - Link
+      requestBody:
+        description: Requires the URL to be shortened
+        content:
+          application/json:
+            schema:
+              $ref: "#/schemas/CreateLink"
+        required: true
+      responses:
+        "201":
+          description: Link created
+          content: {}
+        "400":
+          description: Bad request
+          content: {}
+        "403":
+          description: Link Exists
+          content: {}
+        "500":
+          description: Server Error
+          content: {}
+  /link/{id}:
+    get:
+      summary: Get a Link
+      tags:
+        - Link
+      parameters:
+        - name: id
+          in: path
+          description: The id of the link to retrieve
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Link found
+          content: {}
+        "400":
+          description: Bad request
+          content: {}
+        "404":
+          description: Link does not exist
+          content: {}
+        "500":
+          description: Server Error
+          content: {}
+  /link/{id}/delete:
+    delete:
+      summary: Delete a Link
+      tags:
+        - Link
+      parameters:
+        - name: id
+          in: path
+          description: The id of the link to delete
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Link found
+          content: {}
+        "400":
+          description: Bad request
+          content: {}
+        "404":
+          description: Link does not exist
+          content: {}
+        "500":
+          description: Server Error
+          content: {}
+  /link/update:
+    patch:
+      summary: Shorten a url
+      tags:
+        - Link
+      requestBody:
+        description: Requires the URL to be shortened
+        content:
+          application/json:
+            schema:
+              $ref: "#/schemas/UpdateLink"
+        required: true
+      responses:
+        "201":
+          description: Link updated
+          content: {}
+        "400":
+          description: Bad request
+          content: {}
+        "403":
+          description: Link Exists
+          content: {}
+        "500":
+          description: Server Error
+          content: {}
 
-  # /auth/verify-email:
-  #   put:
-  #     summary: verify email with sso
-  #     tags:
-  #       - Auth
-  #     requestBody:
-  #       description: Requires sso
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: "#/schemas/VerifyEmailWithSSO"
-  #     responses:
-  #       "201":
-  #         description: email verified
-  #         content: {}
-  #       "400":
-  #         description: Bad request
-  #         content: {}
-  #       "401":
-  #         description: Authorisation failed
-  #   content: {}
-  # "403":
-  #   description: Wrong SSO
-  #   content: {}
-  # "404":
-  #   description: user does not exist
-  #   content: {}
-  # "500":
-  #   description: Server Error
-  #   content: {}
 schemas:
   SaveUser:
     title: create new user
@@ -213,84 +246,33 @@ schemas:
       password:
         type: string
         example: secure-password
-  PasswordReset:
-    title: Reset password
+  CreateLink:
+    title: create link
     required:
-      - user email
+      - Link, user id
     type: object
     properties:
-      email:
+      link:
         type: string
-        example: michaelngiri@gmail.com
-  CompletePasswordReset:
-    title: Reset password
-    required:
-      - user email
-      - otp
-    type: object
-    properties:
-      email:
-        type: string
-        example: michaelngiri@gmail.com
-      otp:
-        type: string
-        example: 123456
-      newPassword:
-        type: string
-        example: password1
-  VerifyEmailWithSSO:
-    title: Reset password
-    required:
-      - user email
-      - otp
-    type: object
-    properties:
-      sso:
-        type: string
-        example: 123456-123456-123456
-      email:
-        type: string
-        example: michaelngiri@gmail.com
-  ResendSSO:
-    title: Resend SSO
-    required:
-      - Single sign-on code(SSO)
-    type: object
-    properties:
-      sso:
-        type: string
-        example: 123456-123456-123456
-
-  ResendVerification:
-    title: Reset password
-    required:
-      - user email and password
-    type: object
-    properties:
-      email:
-        type: string
-        example: hello@links.co
-      password:
-        type: string
-        example: secure-password
-  DeleteUser:
-    title: Delete user
-    required:
-      - user email and password
-    type: object
-    properties:
-      email:
-        type: string
-        example: hello@links.co
-      password:
-        type: string
-        example: secure-password
-  VerifyToken:
-    title: Verifiy token
-    required:
-      - token
-    type: object
-    properties:
+        example: https://links.co/very-long-link-that-needs-to-be-shorter-for-sharing
+      userID:
+        type: integer
+        example: 1
       token:
         type: string
-        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiam9obiBkb2UiLCJlbWFpbCI6ImhlbGxvQHNob290ZXIuYXBwIiwicGhvbmUiOiIrMTIzNDU2OTc4OTAiLCJpYXQiOjE1OTI2NTQwOTN9.n2gwgV_yRAy4LKpCct5LmH4i_r-Ok3t9VZOW198KKrI"
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pY2hhZWxuZ2lyaUBnbWFpbC5jb20iLCJkYXRlQ3JlYXRlZCI6IjIwMjItMDgtMjNUMTk6MjY6MzIuMTA2WiIsImlhdCI6MTY2MTI4Mjc5Mn0.F0LfQGuV4mTngIKimqtHkHOdJG86Ut-bxR_3dE-7H9s
+  UpdateLink:
+    title: update link
+    required:
+      - Link id, token
+    type: object
+    properties:
+      newLink:
+        type: string
+        example: https://links.co/a-new-very-long-link-that-needs-to-be-shorter-for-sharing
+      linkID:
+        type: integer
+        example: 1
+      token:
+        type: strings
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pY2hhZWxuZ2lyaUBnbWFpbC5jb20iLCJkYXRlQ3JlYXRlZCI6IjIwMjItMDgtMjNUMTk6MjY6MzIuMTA2WiIsImlhdCI6MTY2MTI4Mjc5Mn0.F0LfQGuV4mTngIKimqtHkHOdJG86Ut-bxR_3dE-7H9s
