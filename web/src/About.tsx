@@ -3,18 +3,18 @@ import React from 'react';
 import './App.css';
 import './assets/styles.css'
 
-function App() {
+function About() {
   // const openMenu = (){
   //   this.classList.toggle('open')
   // }
   return (
     <div className="container">
       <h1>My Links manager</h1>
-    <p>Manage all your links in one place.</p>
-    <p>Home page</p>
-   </div>
+      <p>This is the about page.</p>
+      <p>.</p>
+    </div>
   );
 }
 
-export default App;
+export default About;
 
