@@ -50,12 +50,10 @@ function Dashboard() {
         
         <div className="cards">
             {links.map(function(link, i){
-             return <div className="card card-1">
+             return <div key={i} className="card card-1">
                         <div className="card__icon"><i className="fas fa-bolt"></i></div>
                         <p className="card__exit"><i className="fas fa-times">{link['original_link']}</i></p>
                         <h2 className="card__title"><code>{link['short_link']}</code></h2>
-                        {/* <span>{link['updatedAt']}</span> */}
-                        {/* <span>https://a-very-long-link-that-needs-to-be-shorter</span> */}
                         <p className="card__apply">
                             <a className="card__link" href="#">Edit <i className="fas fa-arrow-right"></i></a>
                         </p>
