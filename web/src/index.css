@@ -11,3 +11,8 @@ code {
 .logo {
   text-align: left;
   margin: 1.2em; }
+
+#logout-btn {
+  float: right;
+  margin: 2rem;
+  cursor: pointer; }

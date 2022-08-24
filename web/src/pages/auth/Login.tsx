@@ -25,7 +25,8 @@ function Login() {
             .then(function (response) {
              
             console.log(response);
-            if (response.status == 200) {
+                if (response.status == 200) {
+                localStorage.setItem('links.co-auth-token', response.data['token'])
                 document.getElementById('auth-success')!.innerHTML = "Login Successful. redirecting..."
                 setTimeout(function(){
                 window.location.href = '/'
@@ -49,7 +50,7 @@ function Login() {
                 <p><span id='auth-success'></span></p>               
             </div>
 			<input required value={email} onChange={e => setEmail(e.target.value)} type="email" id='email' placeholder="Email" />
-			<input required value={password}  onChange={e => setPassword(e.target.value)} type="password" id='email' placeholder="Password" />
+			<input required value={password}  onChange={e => setPassword(e.target.value)} type="password" id='password' placeholder="Password" />
 			<a href="#">Forgot your password?</a>
 			<button onClick={login}>Sign In</button>
 		</form>

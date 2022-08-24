@@ -17,11 +17,30 @@ import Dashboard from './pages/auth/Dashboard';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+let loggedIn = false;
+localStorage.getItem('links.co-auth-token') !== null ? loggedIn = true : loggedIn = false;
+
+const logout = (e: { preventDefault: any; }) => {
+  e.preventDefault()
+  localStorage.removeItem('links.co-auth-token')
+  document.getElementById('logout-msg')!.innerHTML = "You've been logged out!";
+
+  setTimeout(function(){
+    document.getElementById('logout-msg')!.innerHTML = "Redirecting in 5 seconds!";
+  }, 5000);
+  
+  setTimeout(function(){
+    window.location.href='/'
+    }, 2000);
+}
 root.render(
   <div className="App">
     <div className="logo">
       <a href="/"><img height="40" src={logo} alt="Logo"/></a>
     </div>
+
+    <span><b id="logout-msg"></b></span>
       <input id="page-nav-toggle" className="main-navigation-toggle" type="checkbox" />
       <label htmlFor="page-nav-toggle">
         <svg className="icon--menu-toggle" viewBox="0 0 60 30">
@@ -37,16 +56,28 @@ root.render(
             </g>
           </g>
         </svg>
-      </label>
+    </label>
+    
 
   <nav className="main-navigation">
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/about">About</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
+        
+        {loggedIn == true ?
+          <div>
+            <li><a href="/dashboard">Dashboard</a></li>
+          </div>:
+          <div>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+        </div>
+        }
   </ul>
-</nav>
+    </nav>
+    {loggedIn == true ?
+      <span id='logout-btn' onClick={logout}>Logout</span> : null
+    }
 
 <main className="main-content">
  <BrowserRouter>
