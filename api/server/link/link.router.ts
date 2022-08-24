@@ -8,6 +8,7 @@ const LinkRouter = express.Router()
 	.get("/link/:linkID", LinkController.getLink)
 	.delete('/link/:linkID/delete', LinkController.deleteLink)
 	.patch('/link/update', LinkController.updateLink)
+	.get('/:userID/my-links', LinkController.getAllLinks)
 	;
 
 export default LinkRouter;

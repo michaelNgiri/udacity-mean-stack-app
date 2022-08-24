@@ -52,6 +52,28 @@ export class LinkService {
 		});
 	};
 
+
+	/**
+	 * Find all Links belonging to a user
+	 * @param linkID
+	 */
+	_getAllLinks = async (linkID: string): Promise<DataResponse> => {
+		console.log("getting all links");
+		return new Promise((resolve, reject) => {
+			Link.findAll({ where: { link_owner_id: linkID } }).then((links: string | any[]) => {
+				if (links) {
+					resolve({ data: links, status: 200, msg: "links found!" });
+				} else {
+					resolve({ data: links, status: 404, msg: "no link yet!" });
+				}
+	
+			}).catch((err: any) => {
+				console.log('error:'+err)
+				reject({ status: 403, msg: err });
+			});
+		});
+	};
+
 	/**
 	 * Find a Link
 	 * @param linkID

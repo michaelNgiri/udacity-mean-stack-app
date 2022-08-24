@@ -49,10 +49,34 @@ export class LinkController extends LinkService {
 			res.status(200).json({
 				success: true,
 				msg: "Link found",
-				user: data
+				link: data
 			});
 		}).catch((resp) => {
 			console.log("user not found:" + resp["status"]);
+			res.status(404).json({
+				success: false,
+				msg: resp["msg"],
+			});
+		});
+	};
+
+
+	/**
+	 * Get all Links
+	 * @param req
+	 * @param res
+	 * @param next
+	 */
+	getAllLinks = (req: Request, res: Response, next: NextFunction): void => {
+		const { userID } = req.params;
+		this._getAllLinks(userID).then((data) => {
+			res.status(200).json({
+				success: true,
+				msg: "Link found",
+				links: data
+			});
+		}).catch((resp) => {
+			console.log("links not found:" + resp["status"]);
 			res.status(404).json({
 				success: false,
 				msg: resp["msg"],
