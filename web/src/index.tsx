@@ -13,6 +13,9 @@ import logo from './assets/icon.png';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/auth/Dashboard';
+import { Provider } from 'react-redux'
+import store from './store'
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -80,6 +83,7 @@ root.render(
     }
 
 <main className="main-content">
+<Provider store={store}>
  <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
@@ -88,7 +92,8 @@ root.render(
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard/>} />
     </Routes>
-  </BrowserRouter>
+    </BrowserRouter>
+  </Provider>
 </main>
       
     </div>
