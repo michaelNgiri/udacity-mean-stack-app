@@ -1,9 +1,8 @@
 import React from 'react';
-// import logo from './logo.svg';
-import './App.css';
-import './assets/styles.css'
+import '../App.css';
+import '../assets/styles.css'
 
-function App() {
+function Home() {
   // const openMenu = (){
   //   this.classList.toggle('open')
   // }
@@ -16,5 +15,5 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
 
