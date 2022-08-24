@@ -10,7 +10,8 @@ import {
 } from "react-router-dom";
 import About from './pages/About';
 import logo from './assets/icon.png';
-
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -39,8 +40,10 @@ root.render(
 
   <nav className="main-navigation">
   <ul>
-    <li><a href="#0">Home</a></li>
-    <li><a href="#0">My Links</a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
   </ul>
 </nav>
 
@@ -48,7 +51,9 @@ root.render(
  <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="about" element={<About />} />
+          <Route path="about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register/>} />
     </Routes>
   </BrowserRouter>
 </main>
