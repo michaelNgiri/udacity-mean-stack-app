@@ -11,12 +11,11 @@ export class LinkService {
 	 * @param userID
 	 * 
 	 */
-	_createLink = (link: any, userID: any): Promise<DataResponse> => {
+	_createLink = (link: any, userID: integer): Promise<DataResponse> => {
 			console.log('in the link service')
 		console.log('link:' + link + ' userID:' + userID)
 		console.log('short link:'+uniqueURL())
 		return new Promise((resolve, reject) => {
-			
 			Link.create({ original_link:link, short_link:`https://links.io/${uniqueURL()}-${uniqueURL()}`, link_owner_id:userID })
 			.then((link: any) => {
 						if (link) {
@@ -24,7 +23,6 @@ export class LinkService {
 						}
 					}).catch((err: any) => {
 						reject({ status: 403, error: err });
-
 					});
 		});
 	};
