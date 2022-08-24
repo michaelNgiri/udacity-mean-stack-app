@@ -12,6 +12,7 @@ import About from './pages/About';
 import logo from './assets/icon.png';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import Dashboard from './pages/auth/Dashboard';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +20,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <div className="App">
     <div className="logo">
-      <img height="40" src={logo} alt="Logo"/>
+      <a href="/"><img height="40" src={logo} alt="Logo"/></a>
     </div>
       <input id="page-nav-toggle" className="main-navigation-toggle" type="checkbox" />
       <label htmlFor="page-nav-toggle">
@@ -53,7 +54,8 @@ root.render(
       <Route path="/" element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register/>} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
     </Routes>
   </BrowserRouter>
 </main>
