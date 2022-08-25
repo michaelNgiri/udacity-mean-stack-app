@@ -1,18 +1,8 @@
-import AuthController from "./auth.controller";
 import axios from 'axios'
-
-const email = 'michaelngiri@gmail.com'
-const password = 'secure-password'
 const baseURL = 'http://localhost:5005/api/v1'
 
-test('can login a user', () => {
- axios.post(`${baseURL}/auth/login`, {
-            email,
-            password
-        }).then(function (response) {
-          expect(response.status).toBe(200)
-        })
-})
+
+
 
 test('can fetch a user with valid id', () => {
   axios.get(`${baseURL}/auth/user/1`, {
@@ -21,7 +11,6 @@ test('can fetch a user with valid id', () => {
     }
   }).then((res) => {
     expect(res.status).toBe(200)
-    expect(res.status)
   })
     
 })
