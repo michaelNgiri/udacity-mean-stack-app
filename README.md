@@ -8,8 +8,6 @@
 
 #### AUTHOR NAME: Michael Ngiri
 
-#### WEBSITE: https://links.co
-
 #### PROJECT REPO:
 
 ## PROJECT GUIDELINE

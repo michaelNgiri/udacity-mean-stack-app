@@ -3,7 +3,7 @@ import { User} from "../user/user.model";
 import _ from "lodash";
 
 import bcrypt from "bcrypt";
-import { DataResponse } from "../../utils/types";
+import { DataResponse, UserInterface } from "../../utils/types";
 
 
 export class AuthService {
@@ -23,7 +23,7 @@ export class AuthService {
 			console.log('making a promise')
 			User.findOne({ where: { email: email } }).then((user: string | any[]) => {
 				console.log('user:'+user)
-				if (user == null) {
+				if (user !== null) {
 					reject({ status: 403, msg: "user with this email exist!" });
 				}
 				User.create({
@@ -55,31 +55,36 @@ export class AuthService {
 	 */
 	_loginUser = async (email: string, password: string): Promise<DataResponse> => {
 		return new Promise((resolve, reject) => {
-			User.findOne({ where: { email: email } }).then(async (user: string | any[]) => {
+			User.findOne({ where: { email: email } }).then(async (user: UserInterface) => {
 				console.log("user found:" + user);
 				if (user !== null) {
 
-					const dbPassword = String(_.map(user, _.property("password")));
-					console.log("user password:" + dbPassword);
+					// const dbPassword = String(_.map(user, _.property("password")));
+					const dbPassword = user.password
+					console.log("user password:" + password);
+					console.log("dbpassword:" + user.password);
 					const match = await bcrypt.compare(password, dbPassword);
-					resolve({ msg: "Login successful", status: 200, data: user, success: true });
+					console.log('match'+match)
+					// resolve({ msg: "Login successful", status: 200, data: user, success: true });
 					if (match) {
 						console.log("password matched:");console.log("user logged in:");
 							resolve({ msg: "Login successful", status: 200, data: user, success: true });
 							
 					} else {
+						console.log("user log in failed:");
 						reject({ msg: "wrong email/password", status: 401, success: false });
 					}
 
 				} else {
-					console.log("user not found");
+					console.log("user does not exist");
+					reject({ msg: "wrong email/password", status: 401, success: false });
 				}
 				// resolve({'msg':'User dos not exist', 'status':401,  'success':false})
+			})
+			.catch((err: string)=>{
+			    console.log('no user for the login:'+err)
+			    reject({'msg':err, 'status':401,  'success':false})
 			});
-			// .catch((err)=>{
-			//     console.log('no user for the login:'+err)
-			//     reject({'msg':err, 'status':401,  'success':false})
-			// });
 		});
 	};
 

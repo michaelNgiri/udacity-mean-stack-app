@@ -16,7 +16,7 @@ export class AuthController extends AuthService {
 	 * @param res
 	 * @param next
 	 */
-	createUser = (req: Request, res: Response, next: NextFunction): void => {
+	createUser = (req: Request, res: Response): void => {
 		console.log("secret key:" + sk);
 
 		const { firstName, lastName, email,  password } = req.body;
@@ -44,24 +44,48 @@ export class AuthController extends AuthService {
 	 * @param next
 	 */
 	login = (req: Request, res: Response, next: NextFunction): void => {
+		console.log('the request:'+req.params['email'])
 		const { email, password } = req.body;
-		// console.log("ip:" + ipAddress);
-		this._loginUser(email, password).then((data) => {
-			const token = jwt.sign({ email: email, dateCreated: new Date() }, sk);
-			// console.log("jwt token:" + tk);
-			res.status(200).json({
-				success: true,
-				msg: "Login successful",
-				token,
-				data: data
-			});
-		}).catch((resp) => {
-			console.log("failed to login-catch code:" + resp["status"]);
+		console.log('aaaaaaaaaaaaaaaaaaemail:' + email)
+		if (email == '' || password == '') {
+			console.log("failed to login");
 			res.status(400).json({
 				success: false,
-				msg: resp["msg"],
+				msg: "failed to login: email or password incorrect",
 			});
-		});
+		} else {
+			// console.log("ip:" + ipAddress);
+			this._loginUser(email, password).then((data) => {
+				const token = jwt.sign({ email: email, dateCreated: new Date() }, sk);
+				// console.log("jwt token:" + tk);
+				console.log('outcome from service:'+data['status'])
+				if (data['status'] === 200) {
+					res.status(200).json({
+						success: true,
+						msg: "Login successful",
+						token,
+						data: data,
+						status: data['status']
+					});
+				}
+				else {
+					console.log("failed to login this user");
+					res.status(400).json({
+						success: false,
+						msg: "failed to login this user",
+					})
+				}
+				
+				
+			})
+				.catch((resp) => {
+				console.log("failed to login-catch code:" + resp["status"]);
+				res.status(400).json({
+					success: false,
+					msg: resp["msg"],
+				});
+			});
+		}
 	};
 
 
