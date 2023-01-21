@@ -18,4 +18,6 @@
 **Each of the 2 apps need to be started on different ports**
 **The project is documented with swagger for easy interaction**
 
+## Login with: email:triskelionng@gmail.com password: password
+
 ## Cheers:beer:
